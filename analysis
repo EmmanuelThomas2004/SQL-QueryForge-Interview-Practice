@@ -1,0 +1,328 @@
+CREATE TABLE Department (
+    DeptID INT PRIMARY KEY,
+    DeptName VARCHAR(50)
+);
+
+CREATE TABLE Employee (
+    EmpID INT PRIMARY KEY,
+    EmpName VARCHAR(100),
+    DeptID INT,
+    HireDate DATE,
+    FOREIGN KEY (DeptID) REFERENCES Department(DeptID)
+);
+
+CREATE TABLE SalaryHistory (
+    SalaryID INT PRIMARY KEY,
+    EmpID INT,
+    SalaryAmount DECIMAL(10,2),
+    PayDate DATE,
+    FOREIGN KEY (EmpID) REFERENCES Employee(EmpID)
+);
+
+CREATE TABLE Projects (
+    ProjectID INT PRIMARY KEY,
+    ProjectName VARCHAR(100),
+    Budget DECIMAL(12,2)
+);
+
+CREATE TABLE EmployeeProjects (
+    EmpID INT,
+    ProjectID INT,
+    HoursWorked INT,
+    PRIMARY KEY (EmpID, ProjectID),
+    FOREIGN KEY (EmpID) REFERENCES Employee(EmpID),
+    FOREIGN KEY (ProjectID) REFERENCES Projects(ProjectID)
+);
+
+CREATE TABLE Customers (
+    CustomerID INT PRIMARY KEY,
+    CustomerName VARCHAR(100),
+    City VARCHAR(50)
+);
+
+CREATE TABLE Orders (
+    OrderID INT PRIMARY KEY,
+    CustomerID INT,
+    OrderDate DATE,
+    OrderAmount DECIMAL(10,2),
+    FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID)
+);
+
+CREATE TABLE Products (
+    ProductID INT PRIMARY KEY,
+    ProductName VARCHAR(100),
+    Category VARCHAR(50),
+    Price DECIMAL(10,2)
+);
+
+CREATE TABLE OrderDetails (
+    OrderID INT,
+    ProductID INT,
+    Quantity INT,
+    PRIMARY KEY (OrderID, ProductID),
+    FOREIGN KEY (OrderID) REFERENCES Orders(OrderID),
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
+);
+
+CREATE TABLE Attendance (
+    AttendanceID INT PRIMARY KEY,
+    EmpID INT,
+    AttendanceDate DATE,
+    Status VARCHAR(20),
+    FOREIGN KEY (EmpID) REFERENCES Employee(EmpID)
+);
+
+INSERT INTO Department VALUES
+(1, 'IT'),
+(2, 'HR'),
+(3, 'Finance'),
+(4, 'Sales'),
+(5, 'Marketing');
+
+INSERT INTO Employee VALUES
+(101, 'Arun', 1, '2022-01-15'),
+(102, 'Priya', 2, '2021-03-10'),
+(103, 'Rahul', 1, '2023-06-20'),
+(104, 'Anjali', 3, '2020-11-05'),
+(105, 'Vishnu', 4, '2022-08-12'),
+(106, 'Meera', 3, '2021-07-18'),
+(107, 'Akhil', 2, '2024-02-01'),
+(108, 'Sneha', 5, '2023-09-25'),
+(109, 'Kiran', 4, '2019-04-14'),
+(110, 'Neha', 1, '2020-12-09');
+
+INSERT INTO SalaryHistory VALUES
+(1, 101, 65000, '2025-01-01'),
+(2, 102, 45000, '2025-01-01'),
+(3, 103, 55000, '2025-01-01'),
+(4, 104, 70000, '2025-01-01'),
+(5, 105, 40000, '2025-01-01'),
+(6, 106, 72000, '2025-01-01'),
+(7, 107, 38000, '2025-01-01'),
+(8, 108, 42000, '2025-01-01'),
+(9, 109, 60000, '2025-01-01'),
+(10, 110, 80000, '2025-01-01'),
+(11, 101, 68000, '2026-01-01'),
+(12, 102, 47000, '2026-01-01'),
+(13, 103, 58000, '2026-01-01'),
+(14, 104, 73000, '2026-01-01'),
+(15, 105, 43000, '2026-01-01');
+
+INSERT INTO Projects VALUES
+(201, 'Website Redesign', 500000),
+(202, 'Data Migration', 300000),
+(203, 'CRM Implementation', 450000),
+(204, 'Sales Analytics', 250000),
+(205, 'Cloud Migration', 600000);
+
+INSERT INTO EmployeeProjects VALUES
+(101, 201, 120),
+(101, 202, 80),
+(102, 203, 100),
+(103, 202, 150),
+(103, 204, 90),
+(104, 203, 110),
+(105, 204, 130),
+(106, 205, 160),
+(108, 201, 70),
+(109, 205, 140);
+
+INSERT INTO Customers VALUES
+(301, 'Amit', 'Kochi'),
+(302, 'Divya', 'Kottayam'),
+(303, 'Rohit', 'Trivandrum'),
+(304, 'Lakshmi', 'Kochi'),
+(305, 'Nikhil', 'Thrissur'),
+(306, 'Sandra', 'Kottayam'),
+(307, 'Manu', 'Kozhikode'),
+(308, 'Riya', 'Kochi'),
+(309, 'Joel', 'Palakkad'),
+(310, 'Anu', 'Trivandrum');
+
+INSERT INTO Orders VALUES
+(401, 301, '2025-01-10', 15000),
+(402, 302, '2025-02-15', 22000),
+(403, 303, '2025-03-20', 18000),
+(404, 301, '2025-04-05', 12000),
+(405, 304, '2025-04-18', 35000),
+(406, 305, '2025-05-12', 28000),
+(407, 306, '2025-06-22', 9000),
+(408, 307, '2025-07-14', 42000),
+(409, 308, '2025-08-09', 16000),
+(410, 309, '2025-09-30', 31000),
+(411, 310, '2025-10-11', 25000),
+(412, 302, '2025-11-17', 19000);
+
+INSERT INTO Products VALUES
+(501, 'Laptop', 'Electronics', 65000),
+(502, 'Mouse', 'Electronics', 800),
+(503, 'Keyboard', 'Electronics', 1500),
+(504, 'Desk', 'Furniture', 12000),
+(505, 'Chair', 'Furniture', 7500),
+(506, 'Monitor', 'Electronics', 18000),
+(507, 'Printer', 'Electronics', 14000),
+(508, 'Notebook', 'Stationery', 100),
+(509, 'Pen', 'Stationery', 20),
+(510, 'Cabinet', 'Furniture', 9500);
+
+INSERT INTO OrderDetails VALUES
+(401, 501, 1),
+(401, 502, 2),
+(402, 504, 1),
+(403, 506, 1),
+(404, 503, 3),
+(405, 505, 2),
+(406, 507, 2),
+(407, 508, 10),
+(408, 501, 1),
+(409, 506, 1),
+(410, 504, 2),
+(411, 507, 1),
+(412, 502, 5);
+
+INSERT INTO Attendance VALUES
+(1, 101, '2026-01-01', 'Present'),
+(2, 102, '2026-01-01', 'Present'),
+(3, 103, '2026-01-01', 'Absent'),
+(4, 104, '2026-01-01', 'Present'),
+(5, 105, '2026-01-01', 'Leave'),
+(6, 106, '2026-01-01', 'Present'),
+(7, 107, '2026-01-01', 'Absent'),
+(8, 108, '2026-01-01', 'Present'),
+(9, 109, '2026-01-01', 'Present'),
+(10, 110, '2026-01-01', 'Leave');
+
+SELECT E.EmpName, D.DeptName, S.SalaryAmount
+FROM Employee E
+JOIN Department D ON E.DeptID = D.DeptID
+JOIN SalaryHistory S ON E.EmpID = S.EmpID
+WHERE S.PayDate = '2026-01-01';
+
+SELECT D.DeptName, AVG(S.SalaryAmount) AS AvgSalary
+FROM Department D
+JOIN Employee E ON D.DeptID = E.DeptID
+JOIN SalaryHistory S ON E.EmpID = S.EmpID
+WHERE S.PayDate = '2026-01-01'
+GROUP BY D.DeptName;
+
+SELECT E.EmpName, SUM(S.SalaryAmount) AS TotalSalary
+FROM Employee E
+JOIN SalaryHistory S ON E.EmpID = S.EmpID
+GROUP BY E.EmpID, E.EmpName
+ORDER BY TotalSalary DESC;
+
+SELECT E.EmpName, S.SalaryAmount
+FROM Employee E
+JOIN SalaryHistory S ON E.EmpID = S.EmpID
+WHERE S.PayDate = '2026-01-01'
+AND S.SalaryAmount > (
+    SELECT AVG(SalaryAmount)
+    FROM SalaryHistory
+    WHERE PayDate = '2026-01-01'
+);
+
+SELECT D.DeptName, COUNT(E.EmpID) AS EmployeeCount
+FROM Department D
+LEFT JOIN Employee E ON D.DeptID = E.DeptID
+GROUP BY D.DeptName;
+
+SELECT E.EmpName, S.SalaryAmount
+FROM Employee E
+JOIN SalaryHistory S ON E.EmpID = S.EmpID
+WHERE S.PayDate = '2026-01-01'
+AND S.SalaryAmount = (
+    SELECT MAX(S2.SalaryAmount)
+    FROM SalaryHistory S2
+    WHERE S2.EmpID = E.EmpID
+);
+
+SELECT C.CustomerName, COUNT(O.OrderID) AS OrderCount
+FROM Customers C
+JOIN Orders O ON C.CustomerID = O.CustomerID
+GROUP BY C.CustomerID, C.CustomerName
+HAVING COUNT(O.OrderID) > 1;
+
+SELECT C.CustomerName, SUM(O.OrderAmount) AS TotalSpent
+FROM Customers C
+JOIN Orders O ON C.CustomerID = O.CustomerID
+GROUP BY C.CustomerID, C.CustomerName
+ORDER BY TotalSpent DESC;
+
+SELECT P.ProductName, SUM(OD.Quantity) AS TotalQuantity
+FROM Products P
+JOIN OrderDetails OD ON P.ProductID = OD.ProductID
+GROUP BY P.ProductID, P.ProductName
+ORDER BY TotalQuantity DESC;
+
+SELECT E.EmpName, P.ProjectName, EP.HoursWorked
+FROM Employee E
+JOIN EmployeeProjects EP ON E.EmpID = EP.EmpID
+JOIN Projects P ON EP.ProjectID = P.ProjectID
+WHERE EP.HoursWorked > 100;
+
+SELECT E.EmpName, D.DeptName
+FROM Employee E
+JOIN Department D ON E.DeptID = D.DeptID
+WHERE E.DeptID IN (
+    SELECT DeptID
+    FROM Employee
+    GROUP BY DeptID
+    HAVING COUNT(*) > 1
+);
+
+SELECT E.EmpName, S.SalaryAmount
+FROM Employee E
+JOIN SalaryHistory S ON E.EmpID = S.EmpID
+WHERE S.PayDate = '2026-01-01'
+ORDER BY S.SalaryAmount DESC
+OFFSET 0 ROWS FETCH NEXT 3 ROWS ONLY;
+
+SELECT O.OrderID, C.CustomerName, O.OrderAmount
+FROM Orders O
+JOIN Customers C ON O.CustomerID = C.CustomerID
+WHERE O.OrderAmount > (
+    SELECT AVG(OrderAmount) FROM Orders
+);
+
+SELECT P.Category, AVG(P.Price) AS AvgPrice
+FROM Products P
+GROUP BY P.Category;
+
+SELECT E.EmpName, COUNT(EP.ProjectID) AS ProjectCount
+FROM Employee E
+LEFT JOIN EmployeeProjects EP ON E.EmpID = EP.EmpID
+GROUP BY E.EmpID, E.EmpName;
+
+SELECT D.DeptName, SUM(S.SalaryAmount) AS TotalSalary
+FROM Department D
+JOIN Employee E ON D.DeptID = E.DeptID
+JOIN SalaryHistory S ON E.EmpID = S.EmpID
+WHERE S.PayDate = '2026-01-01'
+GROUP BY D.DeptName
+HAVING SUM(S.SalaryAmount) > 100000;
+
+SELECT E.EmpName, S.SalaryAmount, S.PayDate
+FROM Employee E
+JOIN SalaryHistory S ON E.EmpID = S.EmpID
+WHERE S.PayDate = (
+    SELECT MAX(S2.PayDate)
+    FROM SalaryHistory S2
+    WHERE S2.EmpID = E.EmpID
+);
+
+SELECT C.City, COUNT(O.OrderID) AS TotalOrders
+FROM Customers C
+JOIN Orders O ON C.CustomerID = O.CustomerID
+GROUP BY C.City
+ORDER BY TotalOrders DESC;
+
+SELECT E.EmpName, A.AttendanceDate, A.Status
+FROM Employee E
+JOIN Attendance A ON E.EmpID = A.EmpID
+WHERE A.Status = 'Absent';
+
+SELECT P.ProjectName, SUM(EP.HoursWorked) AS TotalHours
+FROM Projects P
+JOIN EmployeeProjects EP ON P.ProjectID = EP.ProjectID
+GROUP BY P.ProjectID, P.ProjectName
+ORDER BY TotalHours DESC;
